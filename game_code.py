@@ -56,18 +56,42 @@ def move():
 
 def direction_check():
     #if current direction is oposite of wanted direction ignore snake direction change
-
+    
     return
 
+controls = {
+    "up" : "w",
+    "down" : "s",
+    "left" : "a",
+    "right" : "d"
+}
+opposit = {
+    "up": "down",
+    "down": "up",
+    "left": "right",
+    "right": "left",
+    "stop" : ""
+}    
 
-def go_up():
-    snake.direction ="up"
-def go_down():
-    snake.direction = "down"
-def go_left():
-    snake.direction = "left"
-def go_right():
-    snake.direction = "right"
+
+
+def direction_snake(direction):
+    #want to move to direction
+    #previous is snake.direction
+    #check if prev direct. is not opposit of direct
+    #if is do not change directions
+    print(opposit[snake.direction])
+    if opposit[snake.direction] == direction:
+        return
+
+    snake.direction = direction
+
+
+game_win.listen()
+
+for dirct, control in controls.items():
+    game_win.onkeypress(lambda d=dirct: direction_snake(d), control)
+
 
 
 
@@ -96,11 +120,11 @@ def snake_grow():
     
 
 
-game_win.listen()
-game_win.onkeypress(go_up, "w")
-game_win.onkeypress(go_down, "s")
-game_win.onkeypress(go_left, "a")
-game_win.onkeypress(go_right, "d")
+# game_win.listen()
+# game_win.onkeypress(go_up, "w")
+# game_win.onkeypress(go_down, "s")
+# game_win.onkeypress(go_left, "a")
+# game_win.onkeypress(go_right, "d")
 
 def restart():
     time.sleep(1)
@@ -137,11 +161,11 @@ def move_snake_section():
 def collison():
     #if snake collides with snake_section game over
     for i in range(len(snake_section)):
-        if (snake_section[i].xcor() == snake.xcor()) and (snake_section[i].ycor() == snake.ycor()):
+        if (snake_section[i].xcor() == snake.xcor()) and (snake_section[i].ycor() == snake.ycor()):# and len(snake_section)>0
             print("col dect")
             
             restart()
-
+            break
     return False
 
 def border():
